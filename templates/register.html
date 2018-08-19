@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+
+{% block title %}
+	Rachel's Book Review | Register
+{% endblock %}
+
+{% block heading %}
+	<h1>Welcome to Rachel's Book Review!</h1>
+	<h3>Let's register to get started:</h3>
+{% endblock %}
+
+{% block body %}
+	<form action="/register/" method="post">
+		<input type="string" class="form-control" placeholder = "Username" name="username" value="{{request.form.username}}">
+		<input type="string" class="form-control" placeholder = "Email" name="email" value="{{request.form.email}}">
+		<input type="password" class="form-control" placeholder = "Password" name="password" value="{{request.form.password}}">
+		<input type="password" class="form-control" placeholder = "Confirm password" name="confirm" value="{{request.form.confirm}}">
+		<input type=submit class="form-button" value=Register>
+	</form>
+	<br>
+	<p><a href="{{ url_for('login') }}">Already a member?</a></p>
+{% endblock %}

@@ -1,0 +1,157 @@
+* {
+    box-sizing: border-box;
+}
+
+/* Adding a light grey background color to entire body */
+body, html {
+    background-color: #ebebe0;
+}
+
+/* Add a dark grey background color to the top navigation */
+.topnav {
+    background-color: #333;
+    overflow: hidden;
+	top: 0;
+	left: 0;
+	width: 100%;
+}
+
+/* Style the links inside the navigation bar */
+.topnav a {
+    float: left;
+    display: block;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 115%;
+}
+
+/* Change the color of links on hover */
+.topnav a:hover {
+    background-color: #ddd;
+    color: black;
+}
+
+/* Hide the link that should open and close the topnav on small screens */
+.topnav .icon {
+    display: none;
+}
+
+/* When the screen is less than 600 pixels wide, hide all links, except for the first one ("Home"). Show the link that contains should open and close the topnav (.icon) */
+@media screen and (max-width: 600px) {
+  .topnav a:not(:first-child) {display: none;}
+  .topnav a.icon {
+    float: right;
+    display: block;
+  }
+}
+
+/* The "responsive" class is added to the topnav with JavaScript when the user clicks on the icon. This class makes the topnav look good on small screens (display the links vertically instead of horizontally) */
+@media screen and (max-width: 600px) {
+  .topnav.responsive {position: relative;}
+  .topnav.responsive a.icon {
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+  .topnav.responsive a {
+    float: none;
+    display: block;
+    text-align: left;
+  }
+}
+
+/* Modifies the headings on each page */
+.heading-container {
+	color: #333;
+	text-align: center;
+	margin: 38px 14px;
+	padding-top: 12px;
+}
+
+/* Styles the container holding buttons */
+.body-container .button-container {
+	text-align: center;
+	margin-top: 60px;
+}
+
+/* Modifies large buttons */
+.body-container .button-container .large-button {
+	background-color: #333;
+	color: white;
+	display: inline-block;
+	font-size: 125%;
+	letter-spacing: 3px;
+	margin: 12px;
+	padding: 22px 32px;
+	text-align: center;
+	text-decoration: none;
+}
+
+/* Modifies large button links */
+.body-container .button-container a:link, .body-container .button-container a:visited {
+	text-decoration: none;
+	color: white;
+}
+
+/* Modifies large button links on hover */
+.body-container .button-container .large-button:hover {
+	background-color: #797979;
+	cursor: pointer;
+}
+
+/* Modifies the overall layout of forms */
+form {
+	max-width: 600px;
+	margin: 25px auto;
+}
+
+/* Modifies the entry fields in forms */
+form .form-control {
+	width: 100%;
+	margin: 5px;
+	padding: 10px 4px;
+}
+
+/* Modifies form buttons */
+form .form-button {
+	background-color: #333;
+	color: white;
+	margin-top: 12px;
+	margin-left: 35%;
+	margin-right: 35%;
+	padding: 12px 16px;
+	text-align: center;
+	text-decoration: none;
+	width: 30%;
+}
+
+/* Modifies form buttons */
+form .form-button:hover {
+	background-color: #797979;
+	cursor: pointer;
+}
+
+/* Styling paragraph elements in the body */
+.body-container p {
+	text-align: center;
+	color: #333;
+}
+
+/* Styling links in body paragraph elements */
+.body-container p a:link, .body-container p a:visited {
+    color: #333;
+    text-align: center; 
+    text-decoration: none;
+} .body-container p a:hover {
+    color: #333;
+    text-align: center; 
+    text-decoration: none;
+	cursor: pointer;
+	font-size: 110%;
+} .body-container p a:active {
+	color: #333;
+    text-align: center; 
+    text-decoration: none;
+}

@@ -1,0 +1,18 @@
+{% extends "layout.html" %}
+
+{% block title %}
+	Rachel's Book Review | Login
+{% endblock %}
+
+{% block heading %}
+	<h1>Welcome back!</h1>
+	<h3>Please login:</h3>
+{% endblock %}
+
+{% block body %}
+	<form action="" class="form-inline" method="post">
+		<input type="text" class="form-control" placeholder = "Username" name="username" value="{{request.form.username}}">
+		<input type="password" class="form-control" placeholder = "Password" name="password" value="{{request.form.password}}">
+		<input class="form-button" type="submit" value="Login">
+	</form>
+{% endblock %}

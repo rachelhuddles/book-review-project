@@ -1,0 +1,13 @@
+CREATE TABLE books (
+	isbn VARCHAR PRIMARY KEY,
+	title VARCHAR NOT NULL,
+	author VARCHAR NOT NULL,
+	bookyear INT NOT NULL
+)
+
+CREATE TABLE users (
+	userid SERIAL PRIMARY KEY, 
+	username VARCHAR(20) NOT NULL, 
+	password VARCHAR(100) NOT NULL, 
+	email VARCHAR(50) NOT NULL
+);

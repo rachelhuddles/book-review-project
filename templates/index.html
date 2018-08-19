@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+
+{% block title %}
+	Rachel's Book Review | Homepage
+{% endblock %}
+
+{% block heading %}
+	<h1>Welcome to Rachel's Book Review!</h1>
+	<h3>You can search for books, leave reviews for individual books, and see reviews left by other readers. Please login or register to get started.</h3>
+{% endblock %}
+
+{% block body %}
+	<div class="button-container">
+		<a href="{{ url_for('register') }}" class="large-button">Register</a>
+		<a href="{{ url_for('login') }}" class="large-button">Login</a>
+	</div>
+{% endblock %}
