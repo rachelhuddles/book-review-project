@@ -1,9 +1,25 @@
 {% extends "layout.html" %}
 
 {% block title %}
-	Rachel's Book Review | Book Details <!-- Is there anyway to pull a specific book title here? -->
+	Rachel's Book Review | {{ title }}
+{% endblock %}
+
+{% block heading %}
+	<h1>{{ title }}</h1>
 {% endblock %}
 
 {% block body %}
-	<p>This page will display specific book details and allow the user to review and/or search other reviews</p>
+
+	<p><b>Title:</b> {{ title }}</p>
+	<p>
+        {% for x in author %}
+			<b>Author:</b> {{ x[0] }}
+        {% endfor %}
+    </p>
+	<p>
+        {% for x in ISBN %}
+			<b>ISBN:</b> {{ x[0] }}
+        {% endfor %}
+    </p>
+	
 {% endblock %}

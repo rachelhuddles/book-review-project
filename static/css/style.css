@@ -155,3 +155,21 @@ form .form-button:hover {
     text-align: center; 
     text-decoration: none;
 }
+
+/* Modifying list elements */
+ul li {
+	padding: 10px 0px;
+	list-style-type: none;
+	margin-left: 8%;
+}
+
+/* Styling links in ul (on search results page */
+ul li a:link, ul li a:visited{
+	text-decoration: none;
+	color: #333;
+} ul li a:hover{
+	text-decoration: none;
+	color: #333;
+	cursor: pointer;
+	font-weight: bold;
+}

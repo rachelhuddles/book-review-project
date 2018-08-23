@@ -18,99 +18,97 @@ app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
-# Connect to database
+# Setting up a SQLalchemy engine and session
 engine = create_engine("postgres://lijguuuketxvgt:41b5b754c093cc173bad3e5b5ac739efe2531630ea7b1a501a6dfb3a8bd3fed9@ec2-54-83-13-119.compute-1.amazonaws.com:5432/deo34sags8udmk")
 db = scoped_session(sessionmaker(bind=engine))
-
-# Registration form class
-class RegistrationForm(Form):
-    username = StringField('Username', [validators.Length(min=4, max=20)])
-    email = StringField('Email Address', [validators.Length(min=6, max=50)])
-    password = PasswordField('New Password', [
-        validators.DataRequired(),
-        validators.EqualTo('confirm', message='Passwords must match')
-    ])
-    confirm = PasswordField('Repeat Password')
 
 # Index - the register/ login home page
 @app.route("/")
 def index():
     return render_template("index.html")
 
-# Login - GET method allows the user to retrieve data from database // POST method allows them to submit data
-@app.route('/login/', methods=["GET","POST"])
-def login():
-    error = ''
-    try:
-        if request.method == "POST":
-
-            data = db.execute("SELECT * FROM users WHERE username = :username")
-            
-            data = db.fetchone()[2]
-
-            if sha256_crypt.verify(request.form['password'], data):
-                session['logged_in'] = True
-                session['username'] = request.form['username']
-
-                flash("You are now logged in")
-                return redirect(url_for('search'))
-
-            else:
-                error = "Invalid credentials, try again."
-
-        return render_template("login.html", error=error)
-
-    except Exception as e:
-        #flash(e)
-        error = "Invalid credentials, try again."
-        return render_template("login.html", error = error)  
-
-# Register
-@app.route('/register/', methods=["GET","POST"])
+# Register - Landing page to register a new user
+@app.route('/register/')
 def register():
-        form = RegistrationForm(request.form)
+    users = db.execute("SELECT * FROM users").fetchall()
+    return render_template("register.html", users=users)
 
-        if request.method == "POST" and form.validate():
-            username  = form.username.data
-            email = form.email.data
-            password = sha256_crypt.hash((str(form.password.data)))
+# Register a new user
+@app.route("/newuser", methods=["POST"])
+def newuser():
 
-            # See if username already exists
-            if db.execute("SELECT * FROM users WHERE username = :username", {"username": username}).rowcount >= 1:
-                flash("That username is already taken, please choose another")
-                return render_template('register.html', form=form)
+    # Get form information.
+    username = request.form.get("username")
+    email = request.form.get("email")
+    password = request.form.get("password")
+    confirm = request.form.get("confirm")
 
-            else:
-                db.execute("INSERT INTO users (username, password, email) VALUES (:username, :password, :email)")
+    # Validate user input - Make sure the passwords match
+    if password != confirm:
+        return render_template("error.html", message="Passwords must match.")
 
-                db.commit()
-                flash("Welcome!")
+    # Validate user input - Make sure the username does not already exist
+    if db.execute("SELECT * FROM users WHERE username = :username", {"username": username}).rowcount > 0:
+        return render_template("error.html", message="That username is not available.")
 
-                session['logged_in'] = True
-                session['username'] = username
-                return redirect(url_for('search'))
+    # Register the new user and send them to search.html
+    db.execute("INSERT INTO users (username, email, password) VALUES (:username, :email, :password)",
+            {"username": username, "email": email, "password": password})
+    db.commit()
+    return render_template("search.html", username=username)
 
-        return render_template('register.html', form=form)
+# Login - Landing page for existing users to log in
+@app.route('/login/')
+def login():
+    users = db.execute("SELECT * FROM users").fetchall()
+    return render_template("login.html", users=users)
+
+# Returning user - 
+@app.route("/returninguser", methods=["POST"])
+def returninguser():
+
+    # Get form information.
+    username = request.form.get("username")
+    password = request.form.get("password")
+
+    # Verify user input
+    if db.execute("SELECT * FROM users WHERE username = :username AND password = :password", {"username": username, "password": password}).rowcount == 0:
+        return render_template("error.html", message="Invalid username or password. Please try again.")
+    return render_template("search.html", username=username)
 
 # Search - redirected here after registering or logging in. Allows the user to search for a book Title, Author, or ISBN
-@app.route('/search/')
+@app.route("/search/")
 def search():
     return render_template("search.html")
 
-# Book - Detail page on each book. Allows users to read and leave reviews
-@app.route("/book/")
-def book():
-    return render_template("book.html")
+# List all search results
+@app.route("/results/", methods=["POST"])
+def results():
 
+    # Get form information.
+    isbn = request.form.get("isbn")
+    author = request.form.get("author")
+    title = request.form.get("title")
+    
+    # Find matching books in book table
+    try:
+        results = db.execute("SELECT isbn, title, author FROM books WHERE isbn = :isbn OR author = :author OR title = :title ", {"isbn":isbn, "author":author, "title":title}).fetchall()
+        return render_template("results.html", results=results)
+    except ValueError:
+        return render_template("error.html", message="No match. Please try a different author, ISBN, or book title.")
+
+# Book - Detail page on each book
+@app.route("/book/<title>")
+def book(title):
+
+    author = db.execute("SELECT author FROM books WHERE title = :title ", {"title":title}).fetchall()
+    ISBN = db.execute("SELECT isbn FROM books WHERE title = :title ", {"title":title}).fetchall()
+    return render_template("book.html", title=title, author=author, ISBN=ISBN)
+    
 # Logout
-@app.route('/dashboard/')
+@app.route('/logout/')
 def logout():
     return render_template("logout.html")
 
-# 404 error page
-@app.errorhandler(404)
-def page_not_found(e):
-    return render_template("404.html")
-	
 if __name__ == "__main__":
     app.run()

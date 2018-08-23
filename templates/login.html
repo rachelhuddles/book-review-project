@@ -10,9 +10,11 @@
 {% endblock %}
 
 {% block body %}
-	<form action="" class="form-inline" method="post">
-		<input type="text" class="form-control" placeholder = "Username" name="username" value="{{request.form.username}}">
-		<input type="password" class="form-control" placeholder = "Password" name="password" value="{{request.form.password}}">
-		<input class="form-button" type="submit" value="Login">
-	</form>
+	<form action="{{ url_for('returninguser') }}" method="post">
+	
+        <input class="form-control" name="username" placeholder="Username">
+		<input class="form-control" type="password" name="password" placeholder="Password">
+        <button class="form-button">Login</button>
+		
+    </form>
 {% endblock %}

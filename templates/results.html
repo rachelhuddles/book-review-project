@@ -1,0 +1,25 @@
+{% extends "layout.html" %}
+
+{% block title %}
+	Rachel's Book Review | Search Results
+{% endblock %}
+
+{% block heading %}
+	<h1>Results</h1>
+{% endblock %}
+
+{% block body %}
+
+	<ul>
+        {% for x in results %}
+            <li>
+				<a href="{{ url_for('book', title = x[1]) }}">
+					Title: {{ x[1] }}<br>
+					Author: {{ x[2] }}<br>
+					ISBN: {{ x[0] }}<br>
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+	
+{% endblock %}

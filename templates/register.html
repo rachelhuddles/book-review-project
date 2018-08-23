@@ -10,13 +10,19 @@
 {% endblock %}
 
 {% block body %}
-	<form action="/register/" method="post">
-		<input type="string" class="form-control" placeholder = "Username" name="username" value="{{request.form.username}}">
-		<input type="string" class="form-control" placeholder = "Email" name="email" value="{{request.form.email}}">
-		<input type="password" class="form-control" placeholder = "Password" name="password" value="{{request.form.password}}">
-		<input type="password" class="form-control" placeholder = "Confirm password" name="confirm" value="{{request.form.confirm}}">
-		<input type=submit class="form-button" value=Register>
-	</form>
+
+	<form action="{{ url_for('newuser') }}" method="post">
+	
+        <input class="form-control" name="username" placeholder="Username">
+		<input class="form-control" name="email" placeholder="Email">
+		<input class="form-control" type="password" name="password" placeholder="Password">
+		<input class="form-control" type="password" name="confirm" placeholder="Confirm Password">
+        <button class="form-button">Register</button>
+		
+    </form>
 	<br>
+	
+	<!-- Provide link to login page for existing members -->
 	<p><a href="{{ url_for('login') }}">Already a member?</a></p>
+	
 {% endblock %}
